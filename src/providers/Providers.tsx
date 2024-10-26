@@ -6,23 +6,23 @@ import { ThemeProvider } from '../components/theme-provider'
 import { Toaster } from "@/components/ui/toaster"
 
 interface Props {
-    children: ReactNode;
+	children: ReactNode;
 }
 
 const Providers = (props: Props) => {
-    return (
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-        >
-            <ReactQueryProvider>
-                <SessionProvider >{props.children}</SessionProvider>
-                <Toaster />
-            </ReactQueryProvider>
-        </ThemeProvider>
-    )
+	return (
+		<ThemeProvider
+			attribute="class"
+			defaultTheme="light"
+			enableSystem
+			disableTransitionOnChange
+		>
+			<ReactQueryProvider>
+				<SessionProvider >{props.children}</SessionProvider>
+				<Toaster />
+			</ReactQueryProvider>
+		</ThemeProvider>
+	)
 }
 
 export default Providers
