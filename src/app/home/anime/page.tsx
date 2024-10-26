@@ -118,7 +118,7 @@ const animeList = [
     }
 ];
 
-export default function Home() {
+export default function AnimeList() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-background to-muted dark:from-background dark:to-background/80">
             <div className="container mx-auto px-4 py-8">

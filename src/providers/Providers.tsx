@@ -13,7 +13,7 @@ const Providers = (props: Props) => {
 	return (
 		<ThemeProvider
 			attribute="class"
-			defaultTheme="light"
+			defaultTheme="dark"
 			enableSystem
 			disableTransitionOnChange
 		>
