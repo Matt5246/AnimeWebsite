@@ -1,6 +1,4 @@
-import { Inter } from "next/font/google";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { Inter } from "next/font/google"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,12 +9,9 @@ export const metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <main>
-                <SidebarTrigger />
-                {children}
-            </main>
-        </SidebarProvider>
+        <main>
+
+            {children}
+        </main>
     );
 }
