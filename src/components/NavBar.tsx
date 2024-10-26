@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import { useSession } from 'next-auth/react'
-
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -18,28 +17,29 @@ export default function Navigation() {
 
     return (
         <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem>
-                    <Link href="/docs" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Documentation
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/home" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Home
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/donations" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Donations
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
+            <NavigationMenuList className="space-x-4">
+                {[
+                    { href: "/docs", label: "Documentation" },
+                    { href: "/home", label: "Home" },
+                    { href: "/donations", label: "Donations" },
+                ].map((item) => (
+                    <NavigationMenuItem key={item.href}>
+                        <Link href={item.href} legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                {item.label}
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                ))}
+                {status === "authenticated" && (
+                    <NavigationMenuItem>
+                        <Link href="/profile" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Profile
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                )}
             </NavigationMenuList>
         </NavigationMenu>
 
