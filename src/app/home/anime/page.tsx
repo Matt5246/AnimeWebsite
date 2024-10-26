@@ -3,9 +3,11 @@
 import { Card, CardHeader, CardFooter, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Play, Star } from "lucide-react"
+import { Play, Star, ImageIcon } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useState, useMemo } from "react"
+import { Filters } from "./filters"
 
 const animeList = [
     {
@@ -50,7 +52,7 @@ const animeList = [
         rating: 4.9,
         episodes: 55,
         description: "A young man becomes a demon slayer after his family is slaughtered and his sister turned into a demon.",
-        image: "https://images.immediate.co.uk/production/volatile/sites/3/2022/01/demon-slayer-season-2-e89d009.jpg",
+        image: "https://image.tmdb.org/t/p/original/r9Rx67TBbIm5XoTcefsNcUhgKth.jpg",
         genres: ["Action", "Supernatural"]
     },
     {
@@ -77,7 +79,7 @@ const animeList = [
         rating: 4.8,
         episodes: 46,
         description: "A boy joins a high school for sorcerers to help people haunted by Curses, supernatural creatures.",
-        image: "https://www.crunchyroll.com/imgsrv/display/thumbnail/1200x675/catalog/crunchyroll/98662d1c3c96999e2d3174bc57d4c819.jpe",
+        image: "https://image.tmdb.org/t/p/original/btFclZIXhzE6qHbnvAURDtzD2ks.jpg",
         genres: ["Action", "Supernatural"]
     },
     {
@@ -115,10 +117,66 @@ const animeList = [
         description: "Gon Freecss aspires to become a Hunter, an elite member of society, while searching for his father.",
         image: "https://m.media-amazon.com/images/M/MV5BZjNmZDhkN2QtNDYyZC00YzJmLTg0ODUtN2FjNjhhMzE3ZmUxXkEyXkFqcGdeQXVyNjc2NjA5MTU@._V1_FMjpg_UX1000_.jpg",
         genres: ["Adventure", "Fantasy"]
+    },
+    {
+        id: 13,
+        title: "Cowboy Bebop",
+        rating: 4.8,
+        episodes: 26,
+        description: "Follow the adventures of bounty hunters in space as they chase down the galaxy's most dangerous criminals.",
+        image: "https://m.media-amazon.com/images/M/MV5BMTc1ZTdlYWUtY2NhZS00OTIxLTgzNjYtN2YxNTBmOTVkMjk4XkEyXkFqcGdeQXVyNjU1OTg4OTM@._V1_.jpg",
+        genres: ["Sci-Fi", "Action"]
+    },
+    {
+        id: 14,
+        title: "Neon Genesis Evangelion",
+        rating: 4.7,
+        episodes: 26,
+        description: "Teenagers pilot giant robots to defend humanity against mysterious beings known as Angels.",
+        image: "https://m.media-amazon.com/images/M/MV5BNDc5M2FkMGItMDY3Yy00NjMwLTlkZjQtMDc3MTQ3M2I5N2E5XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg",
+        genres: ["Psychological", "Mecha"]
     }
 ];
 
-export default function AnimeList() {
+
+const ImageWithFallback = ({ src, alt, ...props }: { src: string; alt: string;[key: string]: any }) => {
+    const [error, setError] = useState(false);
+
+    return error ? (
+        <div className="w-full h-full bg-muted dark:bg-muted/20 flex items-center justify-center">
+            <ImageIcon className="w-12 h-12 text-muted-foreground/50" />
+        </div>
+    ) : (
+        <Image
+            src={src}
+            alt={alt}
+            {...props}
+            onError={() => setError(true)}
+        />
+    );
+};
+
+export default function Home() {
+    const [search, setSearch] = useState("")
+    const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+
+    const availableGenres = useMemo(() => {
+        const genres = new Set<string>()
+        animeList.forEach(anime => {
+            anime.genres.forEach(genre => genres.add(genre))
+        })
+        return Array.from(genres).sort()
+    }, [])
+
+    const filteredAnime = useMemo(() => {
+        return animeList.filter(anime => {
+            const matchesSearch = anime.title.toLowerCase().includes(search.toLowerCase())
+            const matchesGenres = selectedGenres.length === 0 ||
+                selectedGenres.every(genre => anime.genres.includes(genre))
+            return matchesSearch && matchesGenres
+        })
+    }, [search, selectedGenres])
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-background to-muted dark:from-background dark:to-background/80">
             <div className="container mx-auto px-4 py-8">
@@ -132,68 +190,82 @@ export default function AnimeList() {
                     </p>
                 </header>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {animeList.map((anime) => (
-                        <Card
-                            key={anime.id}
-                            className="group relative hover:shadow-xl transition-all duration-300 overflow-hidden 
-                                     border hover:border-primary/50 bg-card dark:bg-card/95 
-                                     dark:hover:shadow-primary/5"
-                        >
-                            <CardHeader className="p-0">
-                                <div className="relative h-48 overflow-hidden">
-                                    <Image
-                                        src={anime.image}
-                                        alt={anime.title}
-                                        width={500}
-                                        height={300}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent 
-                                                  dark:from-background/95 dark:to-transparent 
-                                                  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h2 className="text-xl font-bold tracking-tight dark:text-foreground/90">{anime.title}</h2>
-                                    <div className="flex items-center gap-1">
-                                        <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400 dark:fill-yellow-500 dark:stroke-yellow-500" />
-                                        <span className="text-sm font-medium dark:text-foreground/90">{anime.rating}</span>
+                <Filters
+                    search={search}
+                    setSearch={setSearch}
+                    selectedGenres={selectedGenres}
+                    setSelectedGenres={setSelectedGenres}
+                    availableGenres={availableGenres}
+                />
+
+                {filteredAnime.length === 0 ? (
+                    <div className="text-center py-12">
+                        <p className="text-muted-foreground">No anime found matching your criteria.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {filteredAnime.map((anime) => (
+                            <Card
+                                key={anime.id}
+                                className="group relative hover:shadow-xl transition-all duration-300 overflow-hidden 
+                                         border hover:border-primary/50 bg-card dark:bg-card/95 
+                                         dark:hover:shadow-primary/5"
+                            >
+                                <CardHeader className="p-0">
+                                    <div className="relative h-48 overflow-hidden bg-muted dark:bg-muted/20">
+                                        <ImageWithFallback
+                                            src={anime.image}
+                                            alt={anime.title}
+                                            width={500}
+                                            height={300}
+                                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent 
+                                                      dark:from-background/95 dark:to-transparent 
+                                                      opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     </div>
-                                </div>
-                                <div className="flex gap-2 mb-3 flex-wrap">
-                                    {anime.genres.map((genre) => (
-                                        <Badge
-                                            key={genre}
+                                </CardHeader>
+                                <CardContent className="p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <h2 className="text-xl font-bold tracking-tight dark:text-foreground/90">{anime.title}</h2>
+                                        <div className="flex items-center gap-1">
+                                            <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400 dark:fill-yellow-500 dark:stroke-yellow-500" />
+                                            <span className="text-sm font-medium dark:text-foreground/90">{anime.rating}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2 mb-3 flex-wrap">
+                                        {anime.genres.map((genre) => (
+                                            <Badge
+                                                key={genre}
+                                                variant="secondary"
+                                                className="text-xs dark:bg-secondary/80 dark:text-secondary-foreground/90"
+                                            >
+                                                {genre}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-clamp-2">
+                                        {anime.description}
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground dark:text-muted-foreground/70">
+                                        <Play className="w-4 h-4" />
+                                        <span>{anime.episodes} Episodes</span>
+                                    </div>
+                                </CardContent>
+                                <CardFooter className="p-4 pt-0">
+                                    <Link href={`/anime/${anime.id}`} className="w-full">
+                                        <Button
+                                            className="w-full transition-colors dark:hover:bg-primary/10"
                                             variant="secondary"
-                                            className="text-xs dark:bg-secondary/80 dark:text-secondary-foreground/90"
                                         >
-                                            {genre}
-                                        </Badge>
-                                    ))}
-                                </div>
-                                <p className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-clamp-2">
-                                    {anime.description}
-                                </p>
-                                <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground dark:text-muted-foreground/70">
-                                    <Play className="w-4 h-4" />
-                                    <span>{anime.episodes} Episodes</span>
-                                </div>
-                            </CardContent>
-                            <CardFooter className="p-4 pt-0">
-                                <Link href={`/anime/${anime.id}`} className="w-full">
-                                    <Button
-                                        className="w-full transition-colors dark:hover:bg-primary/10"
-                                        variant="secondary"
-                                    >
-                                        Learn More
-                                    </Button>
-                                </Link>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </div>
+                                            Learn More
+                                        </Button>
+                                    </Link>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
