@@ -1,10 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
 
-export default function Home() {
-  return (
-    <div className="flex justify-center items-center h-screen">
-      Root
-    </div>
-  );
+import { redirect } from "next/navigation";
+
+const Home = () => {
+  redirect('/home');
 }
+
+export default Home;

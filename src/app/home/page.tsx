@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 
 export default function Home() {
@@ -10,7 +11,6 @@ export default function Home() {
                     Explore Now
                 </Link>
                 <div className="mt-8">
-
                 </div>
             </div>
         </>
