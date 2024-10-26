@@ -16,7 +16,7 @@ export default function Footer() {
                             Anime Learning is a non-profit, educational entity. We do not intend to claim ownership of any anime content on this site nor do we monetize them. All anime content on this website belongs to the studios who created them.
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            As per the Copyright Disclaimer under section 107 of the Copyright Act of 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research. Fair use is a use permitted by copyright statute that might otherwise be infringing. Non-profit, educational or personal use tips the balance in favor of fair use.
+                            As per the Copyright Disclaimer under section 107 of the Copyright Act of 1976, allowance is made for &quot;fair use&quot; for purposes such as criticism, comment, news reporting, teaching, scholarship, education and research. Fair use is a use permitted by copyright statute that might otherwise be infringing. Non-profit, educational or personal use tips the balance in favor of fair use.
                         </p>
                     </div>
                     <div className="flex flex-col justify-between">
