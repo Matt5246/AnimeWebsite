@@ -22,6 +22,7 @@ export default function Navigation() {
                     { href: "/docs", label: "Documentation" },
                     { href: "/home", label: "Home" },
                     { href: "/donations", label: "Donations" },
+                    { href: "/profile", label: "Profile" },
                 ].map((item) => (
                     <NavigationMenuItem key={item.href}>
                         <Link href={item.href} legacyBehavior passHref>
@@ -31,15 +32,6 @@ export default function Navigation() {
                         </Link>
                     </NavigationMenuItem>
                 ))}
-                {status === "authenticated" && (
-                    <NavigationMenuItem>
-                        <Link href="/profile" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Profile
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                )}
             </NavigationMenuList>
         </NavigationMenu>
 

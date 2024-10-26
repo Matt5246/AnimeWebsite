@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -28,6 +28,10 @@ export function Filters({
         )
     }
 
+    const clearSelection = () => {
+        setSelectedGenres([])
+    }
+
     return (
         <div className="space-y-4 mb-8">
             <div className="relative">
@@ -39,7 +43,8 @@ export function Filters({
                     placeholder="Search anime by title..."
                 />
             </div>
-            <div className="flex flex-wrap gap-2">
+
+            <div className="flex flex-wrap gap-2 items-center">
                 {availableGenres.map((genre) => (
                     <Badge
                         key={genre}
@@ -55,6 +60,17 @@ export function Filters({
                         {genre}
                     </Badge>
                 ))}
+                {selectedGenres.length > 0 && (
+                    <Badge
+                        onClick={clearSelection}
+                        variant="destructive"
+                        className={cn(
+                            "cursor-pointer hover:bg-primary/30 transition-colors"
+                        )}
+                    >
+                        X
+                    </Badge>
+                )}
             </div>
         </div>
     )

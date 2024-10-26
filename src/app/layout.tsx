@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import Providers from "@/providers/Providers"
 import NavBar from "@/components/NavBar";
 import { ModeToggle } from "@/components/toggleTheme";
+import Footer from "./footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <nav className="h-16 px-4 flex justify-between border-b shadow-md select-none"><NavBar /><ModeToggle /></nav>
           {children}
         </Providers>
       </body>
