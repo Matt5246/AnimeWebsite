@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation'
 
-export default function Page() {
+const Auth = () => {
   redirect('/auth/sign-in')
 }
+
+export default Auth
