@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { Globe } from 'lucide-react'
-import { signIn } from 'next-auth/react'
+import Link from 'next/link';
+import { Globe } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   CardContent,
   CardDescription,
   CardFooter,
-} from '@/components/ui/card'
-import SignInForm from './form'
+} from '@/components/ui/card';
+import SignInForm from './form';
 
 export default function SignIn() {
   return (
@@ -56,5 +56,5 @@ export default function SignIn() {
         </div>
       </CardFooter>
     </CardContent>
-  )
+  );
 }

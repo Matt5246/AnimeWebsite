@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const animeList = [
@@ -284,4 +284,4 @@ export const animeList = [
     genres: ['Action', 'Adventure', 'Drama', 'Historical'],
     videoUrl: 'https://www.youtube.com/watch?v=0XMW3PPEbTY',
   },
-]
+];
