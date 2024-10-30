@@ -1,9 +1,10 @@
-'use client'
+'use client';
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,24 +12,44 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+
+import { signIn } from 'next-auth/react';
 
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-})
+});
 
 export default function SignInForm() {
+  const [isPending, setIsPending] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-  })
+  });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values)
-    } catch (error) {
-      console.error('Form submission error', error)
+      setIsPending(true);
+
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+      });
+
+      setIsPending(false);
+
+      if (!res?.error) {
+        console.log('successfully logged in');
+      } else {
+        const message = 'invalid email or password';
+        console.log(message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setIsPending(false);
     }
   }
 
@@ -66,9 +87,9 @@ export default function SignInForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Sign In
+          {isPending ? 'Loading...' : 'Submit'}
         </Button>
       </form>
     </Form>
-  )
+  );
 }

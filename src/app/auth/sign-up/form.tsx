@@ -1,9 +1,11 @@
-'use client'
+'use client';
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import axios from 'axios';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -11,12 +13,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 const formSchema = z
   .object({
-    username: z.string().min(4),
+    name: z.string().min(4),
     email: z
       .string()
       .email({ message: 'Please enter a valid email.' })
@@ -35,19 +37,23 @@ const formSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords must match',
     path: ['confirmPassword'],
-  })
+  });
 
 export default function SignUpForm() {
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationKey: ['user'],
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const response = await axios.post('/api/auth/sign-up', values);
+      return response.data;
+    },
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-  })
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      console.log(values)
-    } catch (error) {
-      console.error('Form submission error', error)
-    }
+    mutate(values);
   }
 
   return (
@@ -72,7 +78,7 @@ export default function SignUpForm() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -110,9 +116,10 @@ export default function SignUpForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Sign In
+          {isPending ? 'Loading...' : 'Submit'}
         </Button>
       </form>
+      {isError && `Error, ${error}`}
     </Form>
-  )
+  );
 }
