@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,6 +21,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import EditProfilePopover from './editProfilePopover';
 import {
   Edit,
   Key,
@@ -30,8 +32,24 @@ import {
   BookOpen,
   TrendingUp,
 } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 
 const ProfilePage: React.FC = () => {
+  const { data: session, status } = useSession();
+  const [profile, setProfile] = useState({
+    name: session?.user?.name || 'John Doe',
+    email: session?.user?.email || 'john.doe@example.com',
+  });
+  if (status === 'loading') {
+    return (
+      <div className="flex items-center justify-center min-h-[70vh]">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+  const handleSaveProfile = (name: string, email: string) => {
+    setProfile({ name, email });
+  };
   return (
     <div className="container mx-auto p-8 space-y-8">
       <Card>
@@ -44,16 +62,22 @@ const ProfilePage: React.FC = () => {
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="text-center sm:text-left space-y-1 flex-grow">
-            <CardTitle className="text-3xl font-bold">John Doe</CardTitle>
-            <CardDescription>john.doe@example.com</CardDescription>
+            <CardTitle className="text-3xl font-bold">
+              {profile?.name || 'John Doe'}
+            </CardTitle>
+            <CardDescription>
+              {profile?.email || 'john.doe@example.com'}
+            </CardDescription>
             <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2">
               <Badge variant="secondary">Premium Member</Badge>
               <Badge variant="outline">Joined Jan 2020</Badge>
             </div>
           </div>
-          <Button variant="outline" className="mt-4 sm:mt-0">
-            <Edit className="mr-2 h-4 w-4" /> Edit Profile
-          </Button>
+          <EditProfilePopover
+            name={profile.name}
+            email={profile.email}
+            onSave={handleSaveProfile}
+          />
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
