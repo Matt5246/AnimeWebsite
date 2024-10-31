@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -13,7 +13,6 @@ import {
 
 export default function Navigation() {
   const { data: session, status } = useSession();
-
   return (
     <NavigationMenu>
       <NavigationMenuList className="space-x-4">
@@ -32,6 +31,7 @@ export default function Navigation() {
           </NavigationMenuItem>
         ))}
       </NavigationMenuList>
+      <button onClick={() => signOut()}>SIGN OUT</button>
     </NavigationMenu>
   );
 }

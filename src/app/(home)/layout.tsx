@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from '@/app/footer';
-import NavBar from '@/components/NavBar';
+import NavBar from '@/components/navbar';
 import { ModeToggle } from '@/components/toggleTheme';
 
 export default function Layout({

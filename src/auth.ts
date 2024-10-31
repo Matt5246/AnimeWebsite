@@ -1,47 +1,55 @@
 import NextAuth from 'next-auth';
-
+import { NextAuthConfig, CredentialsSignin } from 'next-auth';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
-
-import prisma from '@/lib/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Google,
-    Credentials({
-      credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        try {
-          const { email, password } = credentials;
+import prisma from '@/lib/db';
+import { signInSchema } from './schema/zod-form';
 
-          const user = await prisma.user.findUnique({
-            where: { email: email as string },
-          });
+class InvalidLoginError extends CredentialsSignin {
+  constructor(code: string) {
+    super();
+    this.code = code;
+    this.message = code;
+  }
+}
 
-          if (!user || !user.password) {
-            throw 'User account does not exist';
-          }
+const Credential = Credentials({
+  credentials: {
+    email: { label: 'email', type: 'text' },
+    password: { label: 'password', type: 'password' },
+  },
+  async authorize(credentials) {
+    try {
+      const email = credentials.email as string;
+      const password = credentials.password as string;
 
-          const passwordmatch = await bcrypt.compare(
-            password as string,
-            user.password
-          );
-          if (!passwordmatch) {
-            throw 'Pasword is Incorrect';
-          }
-          return user as any;
-        } catch (error) {
-          console.error(error);
-        }
-      },
-    }),
-  ],
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+      });
+
+      if (!user || !user.password) {
+        return null;
+      }
+
+      const passwordmatch = await bcrypt.compare(password, user.password);
+      if (!passwordmatch) {
+        throw 'Invalid password';
+      }
+      return user;
+    } catch (error) {
+      throw new InvalidLoginError(
+        'System error has occured pleas contact the support team.'
+      );
+    }
+  },
+});
+
+const config = {
+  providers: [Google, Credential],
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'database',
@@ -50,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ account, user, token }) {
       if (account?.provider === 'credentials') {
         const sessionToken = randomUUID();
-        const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
+        const expires = new Date(Date.now() + 60 * 60 * 24 * 1000); //One day
 
         const session = await PrismaAdapter(prisma).createSession!({
           userId: user.id!,
@@ -91,8 +99,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   pages: {
-    signIn: '/auth/login',
+    signIn: '/auth/sign-in',
     signOut: '/',
   },
   trustHost: true,
-});
+} satisfies NextAuthConfig;
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config);
