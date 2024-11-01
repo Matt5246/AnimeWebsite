@@ -1,7 +1,7 @@
-import { expect, test, vi, describe } from 'vitest'
-import { render } from '@testing-library/react'
+import { expect, test, vi, describe } from 'vitest';
+import { render } from '@testing-library/react';
 import { redirect } from 'next/navigation';
-import Page from '../app/page'
+import Page from '../app/page';
 
 vi.mock('next/navigation', () => ({
   redirect: vi.fn(),

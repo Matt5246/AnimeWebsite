@@ -1,13 +1,13 @@
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
-import { LockIcon } from 'lucide-react'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { LockIcon } from 'lucide-react';
 
 export default function Layout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-900 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
@@ -22,5 +22,5 @@ export default function Layout({
         {children}
       </Card>
     </div>
-  )
+  );
 }

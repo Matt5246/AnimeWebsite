@@ -1,7 +1,7 @@
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
 const Auth = () => {
-  redirect('/auth/sign-in')
-}
+  redirect('/auth/sign-in');
+};
 
-export default Auth
+export default Auth;

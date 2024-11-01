@@ -1,12 +1,12 @@
-'use client'
-import Link from 'next/link'
+'use client';
+import Link from 'next/link';
 
 import {
   CardContent,
   CardDescription,
   CardFooter,
-} from '@/components/ui/card'
-import SignUpForm from './form'
+} from '@/components/ui/card';
+import SignUpForm from './form';
 
 export default function SignIn() {
   return (
@@ -27,5 +27,5 @@ export default function SignIn() {
         </p>
       </CardFooter>
     </CardContent>
-  )
+  );
 }
