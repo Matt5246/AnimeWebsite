@@ -11,7 +11,7 @@
     "lint": "next lint",
     "test": "vitest --run",
     "prettier": "prettier --write **/*.{tsx,ts,css,html}",
-    "prepare": "husky install && bash -c 'chmod ug+x .husky/*'"
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",

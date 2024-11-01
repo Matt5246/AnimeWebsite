@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/tabs';
 import EditProfilePopover from './editProfilePopover';
 import {
-  Edit,
   Key,
   Bell,
   Settings,
@@ -78,6 +77,9 @@ const ProfilePage: React.FC = () => {
             email={profile.email}
             onSave={handleSaveProfile}
           />
+          <Button className="mt-4 sm:mt-0" onClick={() => signOut()}>
+            Sign Out
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">

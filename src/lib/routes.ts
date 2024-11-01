@@ -10,4 +10,4 @@ export const authRoutes = ['/auth'];
  * These routes require authentication
  * @type {string[]}
  */
-export const appRoutes = ['/home', '/donations', '/profile'];
+export const appRoutes = ['/profile'];
