@@ -1,10 +1,11 @@
 'use client';
-import React, { ReactNode } from 'react';
-import { SessionProvider } from 'next-auth/react';
-import ReactQueryProvider from './ReactQueryProvider';
-import { ThemeProvider } from '../components/theme-provider';
+import { ThemeProvider } from '@/components/theme/theme-provider';
+import { ThemeWrapper } from '@/components/theme/theme-wrapper';
 import { Toaster } from '@/components/ui/toaster';
-
+import { SessionProvider } from 'next-auth/react';
+import { ReactNode } from 'react';
+import ReactQueryProvider from './ReactQueryProvider';
+import '@/styles/themes.css';
 interface Props {
   children: ReactNode;
 }
@@ -17,10 +18,12 @@ const Providers = (props: Props) => {
       enableSystem
       disableTransitionOnChange
     >
-      <ReactQueryProvider>
-        <SessionProvider>{props.children}</SessionProvider>
-        <Toaster />
-      </ReactQueryProvider>
+      <ThemeWrapper>
+        <ReactQueryProvider>
+          <SessionProvider>{props.children}</SessionProvider>
+          <Toaster />
+        </ReactQueryProvider>
+      </ThemeWrapper>
     </ThemeProvider>
   );
 };

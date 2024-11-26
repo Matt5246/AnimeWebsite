@@ -1,9 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 
 import Footer from '@/app/footer';
 import Navbar from '@/components/navbar';
-import { ModeToggle } from '@/components/toggle-theme';
+import { ThemeCustomizer } from '@/components/theme/theme-customizer';
 
 export default function Layout({
   children,
@@ -12,9 +11,9 @@ export default function Layout({
 }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <nav className="h-16 px-4 flex justify-between border-b shadow-md select-none">
+      <nav className="h-16 px-4 py-4 flex justify-between border-b shadow-md select-none">
         <Navbar />
-        <ModeToggle />
+        <ThemeCustomizer />
       </nav>
       <main className="flex-grow">{children}</main>
       <Footer />
