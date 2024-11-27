@@ -7,7 +7,6 @@ import bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
 
 import prisma from '@/lib/db';
-import { signInSchema } from './schema/zod-form';
 
 class InvalidLoginError extends CredentialsSignin {
   constructor(code: string) {

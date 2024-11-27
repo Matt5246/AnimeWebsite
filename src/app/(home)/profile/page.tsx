@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,7 +23,6 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import EditProfilePopover from './editProfilePopover';
 import {
   Key,
   Bell,
@@ -31,14 +32,10 @@ import {
   BookOpen,
   TrendingUp,
 } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
 
 const ProfilePage: React.FC = () => {
   const { data: session, status } = useSession();
-  const [profile, setProfile] = useState({
-    name: session?.user?.name || 'John Doe',
-    email: session?.user?.email || 'john.doe@example.com',
-  });
+
   if (status === 'loading') {
     return (
       <div className="flex items-center justify-center min-h-[70vh]">
@@ -46,9 +43,7 @@ const ProfilePage: React.FC = () => {
       </div>
     );
   }
-  const handleSaveProfile = (name: string, email: string) => {
-    setProfile({ name, email });
-  };
+
   return (
     <div className="container mx-auto p-8 space-y-8">
       <Card>
@@ -62,21 +57,16 @@ const ProfilePage: React.FC = () => {
           </Avatar>
           <div className="text-center sm:text-left space-y-1 flex-grow">
             <CardTitle className="text-3xl font-bold">
-              {profile?.name || 'John Doe'}
+              {session && session.user?.name}
             </CardTitle>
             <CardDescription>
-              {profile?.email || 'john.doe@example.com'}
+              {session && session.user?.email}
             </CardDescription>
             <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-2">
               <Badge variant="secondary">Premium Member</Badge>
               <Badge variant="outline">Joined Jan 2020</Badge>
             </div>
           </div>
-          <EditProfilePopover
-            name={profile.name}
-            email={profile.email}
-            onSave={handleSaveProfile}
-          />
           <Button className="mt-4 sm:mt-0" onClick={() => signOut()}>
             Sign Out
           </Button>

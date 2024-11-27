@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { ThemeWrapper } from '@/components/theme/theme-wrapper';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -15,11 +17,11 @@ import { baseColors } from '@/registry/registry-base-colors';
 import '@/styles/mdx.css';
 import { Check, Moon, Repeat, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import * as React from 'react';
 
 export function ThemeCustomizer() {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
     setMounted(true);
   }),
     [];
@@ -40,11 +42,12 @@ export function ThemeCustomizer() {
 }
 
 export function Customizer() {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
   const { setTheme: setMode, resolvedTheme: mode } = useTheme();
   const [config, setConfig] = useConfig();
+
   const borderColor = `hsl(${baseColors.find((theme) => theme.name === config.theme)?.activeColor[mode === 'dark' ? 'dark' : 'light']})`;
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
