@@ -30,19 +30,22 @@ const Credential = Credentials({
         where: { email: email },
       });
 
-      if (!user || !user.password) {
+      if (!user) {
         return null;
       }
 
-      const passwordmatch = await bcrypt.compare(password, user.password);
-      if (!passwordmatch) {
-        throw 'Invalid password';
+      if (!user.password) {
+        return null;
       }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return null;
+      }
+
       return user;
     } catch (error) {
-      throw new InvalidLoginError(
-        'System error has occured pleas contact the support team.'
-      );
+      return null;
     }
   },
 });

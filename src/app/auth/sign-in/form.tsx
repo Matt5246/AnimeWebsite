@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
+import { AlertCircle } from 'lucide-react';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,35 +22,45 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { signIn } from 'next-auth/react';
 import { signInSchema, signInType } from '@/schema/zod-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function SignInForm() {
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
+
   const form = useForm<signInType>({
     resolver: zodResolver(signInSchema),
   });
 
   async function onSubmit(values: signInType) {
+    setIsPending(true);
     try {
-      setIsPending(true);
-
       const res = await signIn('credentials', {
-        redirect: true,
+        redirect: false,
         email: values.email,
         password: values.password,
       });
 
-      setIsPending(false);
-
-      if (!res?.error) {
-        console.log('successfully logged in');
-      } else {
-        const message = 'Invalid email or password';
-        console.log(message);
-      }
-    } catch (error: any) {
-      console.error(error);
+      if (res?.error) {
+        const errorMessages: Record<string, string> = {
+          Configuration:
+            "There's an issue with the authentication setup. Please contact support.",
+          CredentialsSignin: 'Invalid email or password',
+        };
+        form.setError('root', {
+          message:
+            errorMessages[res.error] ||
+            'An unexpected error occurred. Please try again.',
+        });
+      } else router.push('/home');
+    } catch (error) {
+      form.setError('root', {
+        message:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred',
+      });
     } finally {
       setIsPending(false);
     }
@@ -85,6 +103,15 @@ export default function SignInForm() {
           {isPending ? 'Loading...' : 'Submit'}
         </Button>
       </form>
+      {form.formState.errors.root && (
+        <Alert variant="destructive" className="mt-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Sign in error</AlertTitle>
+          <AlertDescription>
+            {form.formState.errors.root.message}
+          </AlertDescription>
+        </Alert>
+      )}
     </Form>
   );
 }
