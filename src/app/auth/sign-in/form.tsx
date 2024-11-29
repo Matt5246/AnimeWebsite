@@ -5,12 +5,6 @@ import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-import { AlertCircle } from 'lucide-react';
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -21,6 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import DangerAlert from '@/components/custom/danger-alert';
 
 import { signInSchema, signInType } from '@/schema/zod-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,10 +38,29 @@ export default function SignInForm() {
       });
 
       if (res?.error) {
+        // Map all the Auth.js errors for later convience
         const errorMessages: Record<string, string> = {
           Configuration:
             "There's an issue with the authentication setup. Please contact support.",
-          CredentialsSignin: 'Invalid email or password',
+          CredentialsSignin: 'Invalid email or password.',
+          AccessDenied:
+            'You do not have permission to access this resource.',
+          Verification:
+            'The verification request is invalid or has expired. Please try again.',
+          OAuthSignin:
+            'There was an error signing in with the OAuth provider. Please try again.',
+          OAuthCallback:
+            'An error occurred during the OAuth callback. Please try again.',
+          OAuthCreateAccount:
+            'There was an issue creating your account with the OAuth provider.',
+          EmailCreateAccount:
+            'There was an error creating your account with the provided email.',
+          Callback:
+            'An error occurred during the sign-in callback. Please try again.',
+          AccountNotLinked:
+            'Please use the same sign-in method you used before (e.g., Google, GitHub, etc.).',
+          SessionRequired: 'You must be signed in to access this page.',
+          Default: 'An unknown error occurred. Please try again later.',
         };
         form.setError('root', {
           message:
@@ -104,13 +118,10 @@ export default function SignInForm() {
         </Button>
       </form>
       {form.formState.errors.root && (
-        <Alert variant="destructive" className="mt-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Sign in error</AlertTitle>
-          <AlertDescription>
-            {form.formState.errors.root.message}
-          </AlertDescription>
-        </Alert>
+        <DangerAlert
+          title="Sign In Error"
+          message={form.formState.errors.root.message as string}
+        />
       )}
     </Form>
   );

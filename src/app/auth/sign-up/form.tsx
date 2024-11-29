@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,9 +17,14 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signUpSchema, signUpType } from '@/schema/zod-form';
+import DangerAlert from '@/components/custom/danger-alert';
 
 export default function SignUpForm() {
-  const { mutate, isPending, isError, error } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation<
+    AxiosResponse,
+    AxiosError,
+    signUpType
+  >({
     mutationKey: ['user'],
     mutationFn: async (values: signUpType) => {
       const response = await axios.post('/api/auth/sign-up', values);
@@ -110,7 +115,12 @@ export default function SignUpForm() {
           {isPending ? 'Loading...' : 'Submit'}
         </Button>
       </form>
-      {isError && `Error, ${error.message}`}
+      {isError && (
+        <DangerAlert
+          title="Sign Up Error"
+          message={(error.response?.data as { error: string }).error}
+        />
+      )}
     </Form>
   );
 }
