@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,10 +16,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import DangerAlert from '@/components/custom/danger-alert';
 
 import { signInSchema, signInType } from '@/schema/zod-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function SignInForm() {
   const router = useRouter();
@@ -114,7 +115,7 @@ export default function SignInForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          {isPending ? 'Loading...' : 'Submit'}
+          {isPending ? <Spinner size="large" /> : 'Submit'}
         </Button>
       </form>
       {form.formState.errors.root && (

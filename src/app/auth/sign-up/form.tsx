@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 
 import { signUpSchema, signUpType } from '@/schema/zod-form';
 import DangerAlert from '@/components/custom/danger-alert';
@@ -112,7 +113,11 @@ export default function SignUpForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          {isPending ? 'Loading...' : 'Submit'}
+          {isPending ? (
+            <Spinner className="text-neutral-900" size="large" />
+          ) : (
+            'Submit'
+          )}
         </Button>
       </form>
       {isError && (

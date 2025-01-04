@@ -7,10 +7,10 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-900 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center py-2">
             <div className="bg-primary p-2 rounded-full">
               <LockIcon className="h-6 w-6 text-primary-foreground" />
             </div>
