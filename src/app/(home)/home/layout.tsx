@@ -5,5 +5,5 @@ export default function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main>{children}</main>;
+  return <main className='bg-background'>{children}</main>;
 }

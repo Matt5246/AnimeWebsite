@@ -8,15 +8,14 @@ export function cn(...inputs: ClassValue[]) {
 export const animeList = [
   {
     id: 1,
-    title: 'Naruto',
-    rating: 4.8,
-    episodes: 720,
-    description:
-      'A young ninja who seeks recognition from his peers and dreams of becoming the Hokage. This story dives into themes of friendship, perseverance, and the quest for personal identity.',
-    image:
-      'https://m.media-amazon.com/images/S/pv-target-images/0c9ce4e037546965d6b1f3807e9f8f549a113d32066b2bdb22ada5d179c0d89a.jpg',
-    genres: ['Action', 'Adventure', 'Fantasy', 'Shonen'],
-    videoUrl: 'https://www.youtube.com/watch?v=8vSt3oQbLso',
+    title: 'Dandadan',
+    rating: 4.6,
+    episodes: 11,
+    description: 'The series follows two teenagers with supernatural powers fighting yōkai and aliens with help from multiple allies.',
+    image: "https://preview.redd.it/dandadan-anime-key-visual-v0-qppso1phbj8d1.png?auto=webp&s=f49daae8834ef5ac449a0562f2ea9cded472b9d0" ,
+    genres: ['Adventure', 'Fantasy', 'Drama', 'Psychological'],
+    videoUrl: 'https://rr4---sn-f5f7kn7z.c.docs.google.com/videoplayback?expire=1735955771&ei=C2t4Z9_GIJ-okucP2qTMgQ4&ip=80.49.132.69&id=fed2c47067f1b2f6&itag=37&source=webdrive&requiressl=yes&xpc=EghonaK1InoBAQ==&met=1735944971,&mh=5O&mm=32,26&mn=sn-f5f7kn7z,sn-4g5edndr&ms=su,onr&mv=u&mvi=4&pl=24&rms=su,su&ttl=transient&susc=dr&driveid=1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c&app=explorer&eaua=54KnF9cyMFk&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1437.129&lmt=1728844763286620&mt=1735943501&fvip=2&subapp=UNKNOWN&txp=0011224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,ttl,susc,driveid,app,eaua,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRQIgFbeTZMR2-BbXNTLjEd6pwO0W6yfndDpQ81XAoBgOlTsCIQCY54MHAkKBcSyPw8MDZBdB_dEiqEwlViiZS5xH07VnzA==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=AGluJ3MwRQIhANzYi6Ty4dP31b7Zb5GoTdCVqs9MKbqhEHIJjltfie9-AiBIv9NFFBtz5EmhnL3byAQpI0mUp7-Ym2dw4u9WoD8x0Q==',
+    
   },
   {
     id: 2,
@@ -75,7 +74,7 @@ export const animeList = [
     image:
       'https://m.media-amazon.com/images/M/MV5BNjRiNmNjMmMtN2U2Yi00ODgxLTk3OTMtMmI1MTI1NjYyZTEzXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg',
     genres: ['Thriller', 'Supernatural', 'Mystery', 'Psychological'],
-    videoUrl: 'https://www.youtube.com/watch?v=2XAP3Z3H2wE',
+    videoUrl: 'https://r1---sn-oj5hn5-55.googlevideo.com/videoplayback?expire=1735954466&ei=AnR4Z8-TC5Wni9oP4bOpqQc&ip=5.79.66.19&id=4bcf80f442cabe8d&itag=22&source=picasa&begin=0&requiressl=yes&xpc=EghoqJzIP3oBAQ==&met=1735947266,&mh=ag&mm=32&mn=sn-oj5hn5-55&ms=su&mv=u&mvi=1&pl=23&rms=su,su&sc=yes&susc=ph&app=fife&ic=388&eaua=54KnF9cyMFk&pcm2=yes&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1377.547&lmt=1572175526293378&mt=1735946047&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,app,ic,eaua,pcm2,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRQIhANc75JVJ9V23HJoYTMb6yOEm5rs0A6vLqDmMTwwEQC9UAiB-mda_A03Sbx1-l-q9-7THiEMN-O0XgzauooFHUOlGeA==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms,sc&lsig=AGluJ3MwRQIgGjyCGmyOX9oPOUUD-oiULpqEt-GRar0ISLLo-so8gXMCIQCqtILEwxNg2SBg46euRZJi69aCpG7O-xzQUXb0XT2dAg==',
   },
   {
     id: 7,
@@ -284,4 +283,16 @@ export const animeList = [
     genres: ['Action', 'Adventure', 'Drama', 'Historical'],
     videoUrl: 'https://www.youtube.com/watch?v=0XMW3PPEbTY',
   },
+  {
+    id: 24,
+    title: 'Naruto',
+    rating: 4.8,
+    episodes: 720,
+    description:
+      'A young ninja who seeks recognition from his peers and dreams of becoming the Hokage. This story dives into themes of friendship, perseverance, and the quest for personal identity.',
+    image:
+      'https://m.media-amazon.com/images/S/pv-target-images/0c9ce4e037546965d6b1f3807e9f8f549a113d32066b2bdb22ada5d179c0d89a.jpg',
+    genres: ['Action', 'Adventure', 'Fantasy', 'Shonen'],
+    videoUrl: 'https://www.youtube.com/watch?v=8vSt3oQbLso',
+  }
 ];

@@ -75,16 +75,14 @@ export default function AnimeDetails() {
                 </Badge>
               ))}
             </div>
-            <div className="aspect-video bg-muted">
-              <iframe
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                src="https://2anime.xyz/embed/one-piece-episode-1" // LEave this for example
-                className="w-full h-full"
-                allowFullScreen
-              />
+            <div className="aspect-video bg-muted relative">
+              <video src={anime.videoUrl} controls className="w-full h-full"></video>
+              {/* <track
+                kind="subtitles"
+                srcLang="en"
+                src={subtitles}
+                default
+              /> */}
             </div>
           </CardContent>
           <CardFooter className="p-6 bg-muted/50">

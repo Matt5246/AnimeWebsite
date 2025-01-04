@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Play, Star, ImageIcon } from 'lucide-react';
+import { Play, Star, ImageIcon, Clock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useMemo } from 'react';
@@ -91,7 +91,7 @@ export default function Home() {
             {filteredAnime.map((anime) => (
               <Card
                 key={anime.id}
-                className="group relative hover:shadow-xl transition-all duration-300 overflow-hidden 
+                className="group h-full flex flex-col relative hover:shadow-xl transition-all duration-300 overflow-hidden 
                                          border hover:border-primary/50 bg-card dark:bg-card/95 
                                          dark:hover:shadow-primary/5"
               >
@@ -107,7 +107,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent dark:from-background/95 dark:to-transparent opacity-0 group-hover:opacity-75 transition-opacity duration-500" />
                   </div>
                 </CardHeader>
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex-grow">
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl font-bold tracking-tight dark:text-foreground/90">
                       {anime.title}
@@ -133,12 +133,12 @@ export default function Home() {
                   <p className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-clamp-2">
                     {anime.description}
                   </p>
-                  <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground dark:text-muted-foreground/70">
-                    <Play className="w-4 h-4" />
+                </CardContent>
+                <CardFooter className="p-4 pt-0 mt-auto flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground dark:text-muted-foreground/70 self-start">
+                    <Clock className="w-4 h-4" />
                     <span>{anime.episodes} Episodes</span>
                   </div>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
                   <Link
                     href={`/home/anime/${anime.id}`}
                     className="w-full"
