@@ -14,11 +14,31 @@ import {
 } from '@/components/ui/card';
 import { Star, Play, ArrowLeft } from 'lucide-react';
 import { animeList } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
+
+
+const fetchStreamLink = async (fileId: string) => {
+  fetch(`/api/getFile?fileId=${fileId}`, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.data) {
+        console.log('File Data:', data.data);
+        // Handle the file data (e.g., display or download it)
+      } else {
+        console.error('Error:', data.error);
+      }
+    })
+    .catch(error => console.error('Error fetching file:', error));
+};
 
 export default function AnimeDetails() {
   const router = useRouter();
   const params = useParams();
   const { id } = params;
+  const user = useSession();
+  console.log(user);
 
   const anime = animeList.find((a) => a.id === Number(id));
 
@@ -77,16 +97,17 @@ export default function AnimeDetails() {
             </div>
             <div className="aspect-video bg-muted relative">
               <video src={anime.videoUrl} controls className="w-full h-full"></video>
-              {/* <track
-                kind="subtitles"
-                srcLang="en"
-                src={subtitles}
-                default
-              /> */}
+
+              {/* <video id="video" width="320" height="240" controls>
+                <source src="" type='video/mp4' />
+                Your browser does not support the video tag.
+              </video> */}
+
             </div>
           </CardContent>
-          <CardFooter className="p-6 bg-muted/50">
+          <CardFooter className="p-6 bg-muted/50 space-x-4">
             <Button className="w-full">Watch Next Episode</Button>
+            <Button className="w-full" onClick={() => fetchStreamLink('1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6')}>Fetch Stream Link</Button>
           </CardFooter>
         </Card>
       </div>

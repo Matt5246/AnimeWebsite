@@ -58,10 +58,25 @@ const config = {
   },
   callbacks: {
     async jwt({ account, user, token }) {
+      if (account) {
+        // Include OAuth access token for Google
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token; // if needed
+        token.provider = account.provider;
+      }
       if (account?.provider === 'credentials') {
         const sessionToken = randomUUID();
         const expires = new Date(Date.now() + 60 * 60 * 24 * 1000); //One day
-
+        const account = await prisma.account.findFirst({
+          where: {
+            userId: user.id!,
+            provider: 'credentials',
+          },
+        });
+        if (!account) {
+          throw new Error('Account not found');
+        }
+        
         const session = await PrismaAdapter(prisma).createSession!({
           userId: user.id!,
           sessionToken,
@@ -69,8 +84,10 @@ const config = {
         });
         token.sessionId = session.sessionToken;
       }
+      
       return token;
     },
+    
     session({ session }) {
       if (!session.user) return session;
       const user = {
@@ -81,6 +98,7 @@ const config = {
         image: session.user.image,
       };
       session.user = user;
+      
       return session;
     },
   },

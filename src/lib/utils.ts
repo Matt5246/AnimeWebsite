@@ -5,6 +5,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export async function fetchGoogleVideoUrls(docid: string) {
+    const response = await fetch(`/api/videoUrl?docid=${docid}`);
+    const data = await response.json();
+    const regex1080p = /1080p/;
+    const regex720p = /720p/;
+    const filteredData = Object.keys(data.data).find(key => regex1080p.test(key)) || Object.keys(data.data).find(key => regex720p.test(key));
+    console.log(filteredData ? data.data[filteredData] : 'No suitable video found');
+    const videoUrl = filteredData ? data.data[filteredData] : 'No suitable video found';
+    return {data, videoUrl};
+}
 export const animeList = [
   {
     id: 1,
@@ -14,7 +24,7 @@ export const animeList = [
     description: 'The series follows two teenagers with supernatural powers fighting yōkai and aliens with help from multiple allies.',
     image: "https://preview.redd.it/dandadan-anime-key-visual-v0-qppso1phbj8d1.png?auto=webp&s=f49daae8834ef5ac449a0562f2ea9cded472b9d0" ,
     genres: ['Adventure', 'Fantasy', 'Drama', 'Psychological'],
-    videoUrl: 'https://rr4---sn-f5f7kn7z.c.docs.google.com/videoplayback?expire=1735955771&ei=C2t4Z9_GIJ-okucP2qTMgQ4&ip=80.49.132.69&id=fed2c47067f1b2f6&itag=37&source=webdrive&requiressl=yes&xpc=EghonaK1InoBAQ==&met=1735944971,&mh=5O&mm=32,26&mn=sn-f5f7kn7z,sn-4g5edndr&ms=su,onr&mv=u&mvi=4&pl=24&rms=su,su&ttl=transient&susc=dr&driveid=1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c&app=explorer&eaua=54KnF9cyMFk&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1437.129&lmt=1728844763286620&mt=1735943501&fvip=2&subapp=UNKNOWN&txp=0011224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,ttl,susc,driveid,app,eaua,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRQIgFbeTZMR2-BbXNTLjEd6pwO0W6yfndDpQ81XAoBgOlTsCIQCY54MHAkKBcSyPw8MDZBdB_dEiqEwlViiZS5xH07VnzA==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=AGluJ3MwRQIhANzYi6Ty4dP31b7Zb5GoTdCVqs9MKbqhEHIJjltfie9-AiBIv9NFFBtz5EmhnL3byAQpI0mUp7-Ym2dw4u9WoD8x0Q==',
+    videoId: ['1cEFLV_UoA_9PJYH65YtPiKz56wMEFBFV',"1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c","136IWBsEOcP24Qe1P_EY52mevcyxojeRo","1Sjh4gQ5jVwlrntpBGs7DnERjW8APUjMb"],
     
   },
   {
@@ -185,6 +195,7 @@ export const animeList = [
       'Romance',
       'Science Fiction',
     ],
+    videoId: ['1Vvm8s4emVOxERzSUa0-HqR8-hucWRIIF'],
     videoUrl: 'https://www.youtube.com/watch?v=FNs9NEb6B5s',
   },
   {

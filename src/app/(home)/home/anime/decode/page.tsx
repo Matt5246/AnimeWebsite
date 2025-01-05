@@ -1,18 +1,13 @@
 'use client'
 import React, { useEffect } from 'react';
 
-async function fetchGoogleVideoUrls(docid: string) {
-    const response = await fetch(`/api/videoUrl?docid=${docid}`);
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
+import { fetchGoogleVideoUrls } from '@/lib/utils';
 
 const AnimeDecodePage = () => {
     const [data, setData] = React.useState<{ [key: string]: string } | null>(null);
     useEffect(() => {
         const fetchData = async () => {
-            setData(await fetchGoogleVideoUrls('1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c'));
+            setData(await fetchGoogleVideoUrls('1xgnaMsNrvjBsa25nYIV-A1g5WEiJELfR'));
         };
         fetchData();
     }, []);
@@ -20,7 +15,8 @@ const AnimeDecodePage = () => {
     return (
         <div>
             <h1>Anime Decode Page</h1>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+            <pre className='text-wrap w-full whitespace-pre-wrap break-all'>{JSON.stringify(data, null, 2)}</pre>
+            <a>{data?.videoUrl}</a>
         </div>
     );
 };

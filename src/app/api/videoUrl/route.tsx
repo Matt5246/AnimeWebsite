@@ -5,7 +5,7 @@ export async function GET(request: Request) {
     try {
         const url = new URL(request.url);
         const docid = url.searchParams.get('docid');
-
+        console.log(docid)
         if (!docid) {
             return NextResponse.json({ error: 'Missing docid parameter.' });
         }
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
         });
 
         const videoInfo = response.data;
-
+        console.log("videoInfo:", videoInfo)
         // Extract `fmt_stream_map` key
         const fmtStreamMap = getQueryVariable(videoInfo, 'fmt_stream_map');
         if (!fmtStreamMap) {
@@ -64,7 +64,7 @@ function getQualityLabel(formatCode: number) {
         case 18: return 'Medium Quality, 360p, MP4, 480x360';
         case 22: return 'High Quality, 720p, MP4, 1280x720';
         case 37: return 'Full High Quality, 1080p, MP4, 1920x1080';
-        // Add more cases as needed
+
         default: return null;
     }
 }
