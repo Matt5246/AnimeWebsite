@@ -33,7 +33,8 @@ export async function GET(request: Request) {
             const [formatCode, url] = decodeURIComponent(map).split('|');
             const quality = getQualityLabel(parseInt(formatCode, 10));
             if (quality) {
-                qualityMap[quality] = url;
+                const adjustedUrl = url.replace(/\/[^\/]+\.google\.com/, "/redirector.googlevideo.com");
+                qualityMap[quality] = adjustedUrl;
             }
         });
 

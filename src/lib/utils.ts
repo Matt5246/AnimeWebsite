@@ -5,16 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export async function fetchGoogleVideoUrls(docid: string) {
-    const response = await fetch(`/api/videoUrl?docid=${docid}`);
-    const data = await response.json();
-    const regex1080p = /1080p/;
-    const regex720p = /720p/;
-    const filteredData = Object.keys(data.data).find(key => regex1080p.test(key)) || Object.keys(data.data).find(key => regex720p.test(key));
-    console.log(filteredData ? data.data[filteredData] : 'No suitable video found');
-    const videoUrl = filteredData ? data.data[filteredData] : 'No suitable video found';
-    return {data, videoUrl};
-}
+
 export const animeList = [
   {
     id: 1,
@@ -22,10 +13,10 @@ export const animeList = [
     rating: 4.6,
     episodes: 11,
     description: 'The series follows two teenagers with supernatural powers fighting yōkai and aliens with help from multiple allies.',
-    image: "https://preview.redd.it/dandadan-anime-key-visual-v0-qppso1phbj8d1.png?auto=webp&s=f49daae8834ef5ac449a0562f2ea9cded472b9d0" ,
+    image: "https://preview.redd.it/dandadan-anime-key-visual-v0-qppso1phbj8d1.png?auto=webp&s=f49daae8834ef5ac449a0562f2ea9cded472b9d0",
     genres: ['Adventure', 'Fantasy', 'Drama', 'Psychological'],
-    videoId: ['1cEFLV_UoA_9PJYH65YtPiKz56wMEFBFV',"1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c","136IWBsEOcP24Qe1P_EY52mevcyxojeRo","1Sjh4gQ5jVwlrntpBGs7DnERjW8APUjMb"],
-    
+    videoId: ['1cEFLV_UoA_9PJYH65YtPiKz56wMEFBFV', "1m0K4R4wX_KRavAmDWn8zZQ3xDjFGBi0c", "136IWBsEOcP24Qe1P_EY52mevcyxojeRo", "1Sjh4gQ5jVwlrntpBGs7DnERjW8APUjMb"],
+
   },
   {
     id: 2,
@@ -108,6 +99,7 @@ export const animeList = [
     image:
       'https://image.tmdb.org/t/p/original/btFclZIXhzE6qHbnvAURDtzD2ks.jpg',
     genres: ['Action', 'Supernatural', 'Fantasy', 'Adventure'],
+    videoId: ['1sL97POXWjGwcUTpz6k6v53GZekim3ZYC',"12zMbQMRahxP4y1Zooo0xQATk6wOS1Egp"],
     videoUrl: 'https://www.youtube.com/watch?v=ZMk1RmhL4go',
   },
   {

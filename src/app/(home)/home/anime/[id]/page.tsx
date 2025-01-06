@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,29 @@ const fetchStreamLink = async (fileId: string) => {
     .catch(error => console.error('Error fetching file:', error));
 };
 
+const fetchGoogleVideoUrls = async (docid) => {
+  return fetch(`/api/videoUrl?docid=${docid}`, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.data) {
+        console.log('Video Links:', data.data);
+        return data.data;
+        // Handle the video links (e.g., display or play them)
+      } else {
+        console.error('Error:', data.error);
+        return null;
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching video URLs:', error);
+      return null;
+    });
+}
+
 export default function AnimeDetails() {
+  const [videoLinks, setVideoLinks] = useState(null);
   const router = useRouter();
   const params = useParams();
   const { id } = params;
@@ -108,8 +130,31 @@ export default function AnimeDetails() {
           <CardFooter className="p-6 bg-muted/50 space-x-4">
             <Button className="w-full">Watch Next Episode</Button>
             <Button className="w-full" onClick={() => fetchStreamLink('1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6')}>Fetch Stream Link</Button>
+            <Button className="w-full" onClick={() => fetchGoogleVideoUrls('1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6').then((data) => setVideoLinks(data))}>Fetch Google Video URLs</Button>
           </CardFooter>
         </Card>
+        {videoLinks && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Google Video Links</h2>
+            <div>
+              {Object.entries(videoLinks).map(([quality, url]) => (
+                <div key={quality} style={{ marginBottom: "20px" }}>
+                  <strong>{quality}:</strong>{" "}
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    {url}
+                  </a>
+                  <iframe
+                    src={url}
+                    title={quality}
+                    width="100%"
+                    height="400"
+                    style={{ border: "1px solid #ddd", marginTop: "10px" }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

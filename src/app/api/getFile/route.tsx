@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-// Replace with your Google API Key
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 export async function GET(request: Request) {
@@ -15,14 +14,13 @@ export async function GET(request: Request) {
         }
 
         // Google Drive API endpoint for media file
-        const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${GOOGLE_API_KEY}`;
+        const apiUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?access_token=ya29.a0ARW5m75wcvmt1NCV_Qx21OxEpt0y-sZGYact6C_MiosLbBHWpIX7azC_BhQU-_I3SOXMlEWp64inzFMAy0Qft0Nh7ekzlP2eEqmwldiQEb_bkQWH22mEDtyA64rR7sQ-2k0-JOGr9F48Ta5YunPJe3Q49qD_bCcZM6VdzCoDaCgYKAZYSARESFQHGX2Miq4Nvh4XQn5FqeZhCQUJsbQ0175&prettyPrint=true&alt=media&key=${GOOGLE_API_KEY}`;
 
         // Fetch file from Google Drive
         const response = await axios.get(apiUrl, {
             headers: {
                 'Authorization': `Bearer ${process.env.GOOGLE_ACCESS_TOKEN}`,
             },
-            responseType: 'arraybuffer', // To handle binary response for media files
         });
 
         const fileData = response.data;
