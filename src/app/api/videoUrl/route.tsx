@@ -5,21 +5,26 @@ export async function GET(request: Request) {
     try {
         const url = new URL(request.url);
         const docid = url.searchParams.get('docid');
-        console.log(docid)
         if (!docid) {
             return NextResponse.json({ error: 'Missing docid parameter.' });
         }
 
-        // Google Docs API endpoint
-        const apiUrl = 'https://docs.google.com/get_video_info';
-
-        // Fetch video info from Google
-        const response = await axios.get(apiUrl, {
-            params: { docid },
+        const apiUrl = "https://drive.google.com/get_video_info?authuser=";
+        const response = await axios.get(`${apiUrl}&docid=${docid}&sle=true&hl=de&ipbypass=yes&ipbits=0`, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Authorization': `Bearer ${process.env.GOOGLE_ACCESS_TOKEN}`,
+            },
         });
 
+        // Extract cookies from the response headers
+        const cookies = response.headers['set-cookie'];
+        if (!cookies || !cookies.some((cookie) => cookie.includes('DRIVE_STREAM'))) {
+            return NextResponse.json({ error: 'Missing DRIVE_STREAM cookie.' });
+        }
+
         const videoInfo = response.data;
-        console.log("videoInfo:", videoInfo)
+
         // Extract `fmt_stream_map` key
         const fmtStreamMap = getQueryVariable(videoInfo, 'fmt_stream_map');
         if (!fmtStreamMap) {
@@ -33,13 +38,17 @@ export async function GET(request: Request) {
             const [formatCode, url] = decodeURIComponent(map).split('|');
             const quality = getQualityLabel(parseInt(formatCode, 10));
             if (quality) {
-                const adjustedUrl = url.replace(/\/[^\/]+\.google\.com/, "/redirector.googlevideo.com");
-                qualityMap[quality] = adjustedUrl;
+                qualityMap[quality] = url;
             }
         });
 
-        // Return the processed data
-        return NextResponse.json({ data: qualityMap });
+        // Include cookies for video playback links
+        const playbackLinks = Object.entries(qualityMap).reduce((acc, [quality, link]) => {
+            acc[quality] = { url: link, cookies };
+            return acc;
+        }, {} as { [key: string]: { url: string; cookies: string[] } });
+
+        return NextResponse.json({ data: playbackLinks });
     } catch (error) {
         console.error('Error fetching video URL:', error);
         return NextResponse.json({ error: 'Failed to retrieve video URL.' });
@@ -65,7 +74,6 @@ function getQualityLabel(formatCode: number) {
         case 18: return 'Medium Quality, 360p, MP4, 480x360';
         case 22: return 'High Quality, 720p, MP4, 1280x720';
         case 37: return 'Full High Quality, 1080p, MP4, 1920x1080';
-
         default: return null;
     }
 }

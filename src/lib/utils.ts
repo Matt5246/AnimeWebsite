@@ -75,7 +75,8 @@ export const animeList = [
     image:
       'https://m.media-amazon.com/images/M/MV5BNjRiNmNjMmMtN2U2Yi00ODgxLTk3OTMtMmI1MTI1NjYyZTEzXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg',
     genres: ['Thriller', 'Supernatural', 'Mystery', 'Psychological'],
-    videoUrl: 'https://r1---sn-oj5hn5-55.googlevideo.com/videoplayback?expire=1735954466&ei=AnR4Z8-TC5Wni9oP4bOpqQc&ip=5.79.66.19&id=4bcf80f442cabe8d&itag=22&source=picasa&begin=0&requiressl=yes&xpc=EghoqJzIP3oBAQ==&met=1735947266,&mh=ag&mm=32&mn=sn-oj5hn5-55&ms=su&mv=u&mvi=1&pl=23&rms=su,su&sc=yes&susc=ph&app=fife&ic=388&eaua=54KnF9cyMFk&pcm2=yes&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1377.547&lmt=1572175526293378&mt=1735946047&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,app,ic,eaua,pcm2,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRQIhANc75JVJ9V23HJoYTMb6yOEm5rs0A6vLqDmMTwwEQC9UAiB-mda_A03Sbx1-l-q9-7THiEMN-O0XgzauooFHUOlGeA==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms,sc&lsig=AGluJ3MwRQIgGjyCGmyOX9oPOUUD-oiULpqEt-GRar0ISLLo-so8gXMCIQCqtILEwxNg2SBg46euRZJi69aCpG7O-xzQUXb0XT2dAg==',
+    videoUrl: ['https://r1---sn-oj5hn5-55.googlevideo.com/videoplayback?expire=1735954466&ei=AnR4Z8-TC5Wni9oP4bOpqQc&ip=5.79.66.19&id=4bcf80f442cabe8d&itag=22&source=picasa&begin=0&requiressl=yes&xpc=EghoqJzIP3oBAQ==&met=1735947266,&mh=ag&mm=32&mn=sn-oj5hn5-55&ms=su&mv=u&mvi=1&pl=23&rms=su,su&sc=yes&susc=ph&app=fife&ic=388&eaua=54KnF9cyMFk&pcm2=yes&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1377.547&lmt=1572175526293378&mt=1735946047&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,app,ic,eaua,pcm2,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRQIhANc75JVJ9V23HJoYTMb6yOEm5rs0A6vLqDmMTwwEQC9UAiB-mda_A03Sbx1-l-q9-7THiEMN-O0XgzauooFHUOlGeA==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms,sc&lsig=AGluJ3MwRQIgGjyCGmyOX9oPOUUD-oiULpqEt-GRar0ISLLo-so8gXMCIQCqtILEwxNg2SBg46euRZJi69aCpG7O-xzQUXb0XT2dAg==',
+    'https://r4---sn-npoeenly.googlevideo.com/videoplayback?expire=1736214024&ei=2Ft8Z-KCG-60mvUPrrTEmAE&ip=37.19.205.205&id=550aa04eeb77372c&itag=22&source=webdrive&requiressl=yes&xpc=EghonaK1InoBAQ==&ttl=transient&susc=dr&driveid=12zMbQMRahxP4y1Zooo0xQATk6wOS1Egp&app=explorer&eaua=54KnF9cyMFk&mime=video/mp4&vprv=1&prv=1&rqh=1&cnr=14&dur=1435.109&lmt=1719413014180659&subapp=UNKNOWN&txp=0001224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,ttl,susc,driveid,app,eaua,mime,vprv,prv,rqh,cnr,dur,lmt&sig=AJfQdSswRgIhAOifj1sPJ4TUFuZxaR5605xUhkv-W3aNEOB0ZSS7-ToTAiEAtaxB8CskQHBOkQzV0pwhWKHSycxxIbnb9GqIS-bA7dU=&tso=717&redirect_counter=1&cm2rm=sn-oguely7s&rrc=80&fexp=24350590,24350737,24350827,24350851&req_id=91f8e51b7184a3ee&cms_redirect=yes&cmsv=e&met=1736203942,&mh=_Y&mm=34&mn=sn-npoeenly&ms=ltu&mt=1736203473&mv=m&mvi=4&pl=24&rms=ltu,su&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms,tso&lsig=AGluJ3MwRQIgGe9ZKok4zY_AEiX4KoS2m8rB9OsjPnSMgM5AEzMTfi0CIQDrttLwuGUGrX1TPwViSPrQziolka4A98X2mSwBlQpnsQ%3D%3D']
   },
   {
     id: 7,
@@ -297,5 +298,19 @@ export const animeList = [
       'https://m.media-amazon.com/images/S/pv-target-images/0c9ce4e037546965d6b1f3807e9f8f549a113d32066b2bdb22ada5d179c0d89a.jpg',
     genres: ['Action', 'Adventure', 'Fantasy', 'Shonen'],
     videoUrl: 'https://www.youtube.com/watch?v=8vSt3oQbLso',
+  },
+  {
+    id: 25,
+    title: 'Kill la kill',
+    rating: 4.7,
+    episodes: 24,
+    description:
+      'Ryuko Matoi seeks revenge against the student council president who killed her father. This series is known for its over-the-top action, humor, and themes of power and rebellion.',
+    image:
+      'https://m.media-amazon.com/images/M/MV5BMTIwMzUwNzQ5M15BMl5BanBnXkFtZTgwNjQ0NjQ4NjM@._V1_.jpg',
+    genres: ['Action', 'Comedy', 'Supernatural'],
+    videoId:['1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6'],
+    videoUrl: 'https://www.youtube.com/watch?v=8cYd8tZ8JZg',
+    
   }
 ];

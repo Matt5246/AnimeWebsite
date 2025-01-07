@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const fetchGoogleVideoUrls = async (docid) => {
     const apiUrl = "https://docs.google.com/get_video_info";
-    const response = await fetch(`${apiUrl}?docid=${docid}`);
+    const response = await fetch(`${apiUrl}?docid=${docid}&ipbypass=yes`);
     const videoInfoText = await response.text();
     console.log("Video Info Response:", videoInfoText);
     return parseVideoInfo(videoInfoText);
@@ -55,7 +55,7 @@ const getQualityLabel = (formatCode) => {
 export default function Home() {
     const [videoLinks, setVideoLinks] = useState(null);
     const [error, setError] = useState(null);
-    const docid = "12zMbQMRahxP4y1Zooo0xQATk6wOS1Egp"; // Replace with your docid
+    const docid = "1cEFLV_UoA_9PJYH65YtPiKz56wMEFBFV"; // Replace with your docid
 
     useEffect(() => {
         const fetchData = async () => {

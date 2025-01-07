@@ -16,52 +16,35 @@ import { Star, Play, ArrowLeft } from 'lucide-react';
 import { animeList } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 
-
-const fetchStreamLink = async (fileId: string) => {
-  fetch(`/api/getFile?fileId=${fileId}`, {
-    method: 'GET',
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.data) {
-        console.log('File Data:', data.data);
-        // Handle the file data (e.g., display or download it)
-      } else {
-        console.error('Error:', data.error);
-      }
-    })
-    .catch(error => console.error('Error fetching file:', error));
-};
-
-const fetchGoogleVideoUrls = async (docid) => {
+const fetchGoogleVideoUrls = async (docid: string) => {
   return fetch(`/api/videoUrl?docid=${docid}`, {
     method: 'GET',
   })
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.data) {
         console.log('Video Links:', data.data);
-        return data.data;
-        // Handle the video links (e.g., display or play them)
+        return data.data; // This is the quality map returned from the server
       } else {
         console.error('Error:', data.error);
         return null;
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error('Error fetching video URLs:', error);
       return null;
     });
-}
+};
 
 export default function AnimeDetails() {
-  const [videoLinks, setVideoLinks] = useState(null);
+  const [videoLinks, setVideoLinks] = useState<{ [key: string]: string } | null>(null);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
   const router = useRouter();
   const params = useParams();
   const { id } = params;
   const user = useSession();
   console.log(user);
-
+  console.log(selectedVideoUrl?.url)
   const anime = animeList.find((a) => a.id === Number(id));
 
   if (!anime) {
@@ -118,38 +101,40 @@ export default function AnimeDetails() {
               ))}
             </div>
             <div className="aspect-video bg-muted relative">
-              <video src={anime.videoUrl} controls className="w-full h-full"></video>
+              {/* Video Element */}
 
-              {/* <video id="video" width="320" height="240" controls>
-                <source src="" type='video/mp4' />
+              <video src={selectedVideoUrl?.url || ''} controls className="w-full h-full">
                 Your browser does not support the video tag.
-              </video> */}
-
+              </video>
             </div>
           </CardContent>
           <CardFooter className="p-6 bg-muted/50 space-x-4">
-            <Button className="w-full">Watch Next Episode</Button>
-            <Button className="w-full" onClick={() => fetchStreamLink('1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6')}>Fetch Stream Link</Button>
-            <Button className="w-full" onClick={() => fetchGoogleVideoUrls('1r98AIUXZVksPibm5ZRxMZ17La8S4ZOn6').then((data) => setVideoLinks(data))}>Fetch Google Video URLs</Button>
+            <Button
+              className="w-full"
+              onClick={() =>
+                fetchGoogleVideoUrls('1cEFLV_UoA_9PJYH65YtPiKz56wMEFBFV').then((data) => {
+                  setVideoLinks(data);
+                  if (data) {
+                    const firstQuality = Object.keys(data)[0];
+                    setSelectedVideoUrl(data[firstQuality]);
+                  }
+                })
+              }
+            >
+              Fetch Google Video URLs
+            </Button>
           </CardFooter>
         </Card>
         {videoLinks && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-4">Google Video Links</h2>
-            <div>
+            <h2 className="text-2xl font-bold mb-4">Available Video Links</h2>
+            <div className="space-y-4">
               {Object.entries(videoLinks).map(([quality, url]) => (
-                <div key={quality} style={{ marginBottom: "20px" }}>
-                  <strong>{quality}:</strong>{" "}
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    {url}
-                  </a>
-                  <iframe
-                    src={url}
-                    title={quality}
-                    width="100%"
-                    height="400"
-                    style={{ border: "1px solid #ddd", marginTop: "10px" }}
-                  />
+                <div key={quality} className="flex items-center justify-between">
+                  <span className="font-medium">{quality}</span>
+                  <Button onClick={() => setSelectedVideoUrl(url)}>Play</Button>
+                  {/* <a href={url} target="_blank" rel="noopener noreferrer">
+                    {url}</a> */}
                 </div>
               ))}
             </div>
